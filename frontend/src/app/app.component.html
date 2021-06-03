@@ -1,0 +1,131 @@
+<div class="top-container">
+  <div class="left-side box">
+    <h2>Modify the Data</h2>
+    <div class="p-grid">
+      <div class="p-col-6">Multiplikator</div>
+      <div class="p-col-6">
+        <input pInputText type="number" [(ngModel)]="dataSeederAmount" aria-label="" inputmode="number">
+      </div>
+      <div class="p-col-6">Basis-Wert</div>
+      <div class="p-col-6">
+        <input pInputText type="number" value="100.000" aria-label="" disabled>
+      </div>
+      <div class="p-col-6">Datenmenge</div>
+      <div class="p-col-6">
+        <input pInputText type="number" [(ngModel)]="_data.length" aria-label="" disabled>
+      </div>
+    </div>
+    <div class="p-col-12">
+      <button pButton (click)="seedData()">Create Array</button>
+    </div>
+  </div>
+  <div class="middle-site" style="max-width: 400px">
+    <h2>Select a performance test</h2>
+    <div class="p-grid">
+      <div class="p-col-2">Anzahl Runden</div>
+      <div class="p-col-10">
+        <input pInputText type="text" placeholder="Amount of Rounds" [(ngModel)]="totalRun" aria-label="">
+      </div>
+      <div class="p-col-2">filter</div>
+      <div class="p-col-10">
+        <button pButton (click)='define("filter-standard")'> Standard</button>
+        <button pButton (click)='define("filter-chaining")'> Chaining</button>
+      </div>
+      <div class="p-col-2">map</div>
+      <div class="p-col-10">
+        <button pButton (click)='define("map-standard")'> Standard</button>
+      </div>
+      <div class="p-col-2">foreach </div>
+      <div class="p-col-10">
+        <button pButton (click)='define("map-standard")'> Standard</button>
+      </div>
+      <div class="p-col-2">Reduce</div>
+      <div class="p-col-10">
+        <button pButton (click)='define("reduce-chain-3")'> Standard</button>
+      </div>
+    </div>
+  </div>
+  <div class="right-side">
+    <h1> Intermediate Results </h1>
+    <div class="p-grid p-col-12">
+      <div class="p-grid p-col-6">
+        <div class="p-grid">
+          <div class="p-col-3">Round</div>
+          <div class="p-col-9"> {{currentRun + 1}} von {{totalRun}} </div>
+          <div class="p-col-3">FO - Total</div>
+          <div class="p-col-9" [ngStyle]="{'color': result_HO > result_FO ? '#71efb1' : '#fd8e8e'}">
+            {{(result_FO).toFixed(5)}}
+          </div>
+          <div class="p-col-3">FO - Average</div>
+          <div class="p-col-9">
+            {{(result_FO / totalRun).toFixed(5)}}
+          </div>
+          <div class="p-col-3">HO - Total</div>
+          <div class="p-col-9" [ngStyle]="{'color': result_HO < result_FO ? '#71efb1' : '#fd8e8e'}">
+            {{(result_HO).toFixed(5)}}
+          </div>
+          <div class="p-col-3">HO - Average</div>
+          <div class="p-col-9">
+            {{(result_HO / totalRun).toFixed(5)}}
+          </div>
+        </div>
+      </div>
+      <div class="p-grid p-col-6">
+        <div class="p-grid">
+          <div class="p-col-3">Data used</div>
+          <div class="p-col-9"> {{_data.length | number}} </div>
+          <div class="p-col-3">FO - Current</div>
+          <div class="p-col-9">
+            {{(result_FO).toFixed(5)}}
+          </div>
+          <div class="p-col-3">FO - Diff</div>
+          <div class="p-col-9">
+            {{((result_HO / totalRun) / (result_FO / totalRun)).toFixed(3)}} %
+          </div>
+          <div class="p-col-3">HO - Diff</div>
+          <div class="p-col-9">
+            {{((result_FO / totalRun) / (result_HO / totalRun)).toFixed(3)}} %
+          </div>
+          <div class="p-col-3">HO - Total</div>
+          <div class="p-col-9">
+            {{(result_HO / totalRun).toFixed(5)}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isSystemReady" class="center">
+  <div class="p-grid box">
+    <button class="p-text-center p-button-info p-p-3" pButton [disabled]="!isSystemReady" (click)="startTest()" label="Start Test"></button>
+    <button pButton title="Download JSON" class="p-button-info p-p-3 p-ml-1" *ngIf="results.length" (click)="download()" download="download.json"> Download Results</button>
+  </div>
+
+
+  <div class="table" *ngIf="results.length">
+    <p-table [value]="results">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Type</th>
+          <th>Result FO</th>
+          <th>Result FO KUM</th>
+          <th>Result HO</th>
+          <th>Result HO KUM</th>
+          <th>FO in %</th>
+          <th>HO in %</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-res>
+        <tr>
+          <td>{{res.type}}</td>
+          <td>{{res.result_FO }}</td>
+          <td>{{res.result_FO_kum }}</td>
+          <td>{{res.result_HO }}</td>
+          <td>{{res.result_HO_kum }}</td>
+          <td>{{(res.result_HO / res.result_FO | number)}}</td>
+          <td>{{(res.result_FO / res.result_HO | number)}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+/* You can add global styles to this file, and also import other style files */
+.p-col-2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.table {
+  max-height: 500px;
+  overflow: scroll;
+  margin-bottom: 200px;
+  margin-top: 2rem
+}
+
+.p-col-3 {
+  font-size: 1.2rem;
+}
+
+.p-col-9 {
+  font-size: 1.2rem;
+}
+
+.center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.table {
+  margin: 150px;
+}
+
+table, tr, td, th {
+  font-size: 0.8rem;
+  color: white !important;
+  background-color: #2f2f2f !important;
+}
+
+.box {
+  width: 400px;
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 5px;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #000000;
+}
